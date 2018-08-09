@@ -28,11 +28,11 @@ public class SingleNote extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 note_data.setTitle(((EditText)findViewById(R.id.title)).getText().toString());
-                note_data.setDescription(((EditText)findViewById(R.id.description)).getText().toString());
                 note_data.setLocation(((EditText)findViewById(R.id.location)).getText().toString());
-                note_data.setWeather(((EditText)findViewById(R.id.weather)).getText().toString());
                 note_data.setTime(((EditText)findViewById(R.id.time)).getText().toString());
-
+                note_data.setWeather(((EditText)findViewById(R.id.weather)).getText().toString());
+                note_data.setGear(((EditText)findViewById(R.id.gear)).getText().toString());
+                note_data.setDescription(((EditText)findViewById(R.id.description)).getText().toString());
                 Snackbar.make(view, "Saved", Snackbar.LENGTH_SHORT).show();
             }
         });
