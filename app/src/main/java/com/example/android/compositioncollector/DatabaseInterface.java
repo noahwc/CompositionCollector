@@ -2,8 +2,11 @@ package com.example.android.compositioncollector;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
 
 public class DatabaseInterface  extends SQLiteOpenHelper{
 
@@ -25,7 +28,7 @@ public class DatabaseInterface  extends SQLiteOpenHelper{
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int current_version, final int new_version) {
+    public void onUpgrade(SQLiteDatabase db, int current_version, final int new_version) {
         while(current_version < new_version){
             switch(current_version){
                 // Each case contains the steps required to upgrade to the current version by one.
@@ -48,5 +51,25 @@ public class DatabaseInterface  extends SQLiteOpenHelper{
         else{
             return true;
         }
+    }
+
+    private Cursor cursorGetAll(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.rawQuery("select * from " + db_name, null);
+    }
+
+    public ArrayList<NoteContent> getDBContents(){
+        ArrayList<NoteContent> db_dump = new ArrayList<>();
+        Cursor db_sel = this.cursorGetAll();
+        NoteContent current_note = new NoteContent();
+        String[] db_row = new String[db_cols.length];
+        while(db_sel.moveToNext()){
+            for(int i = 1; i <= db_cols.length; i++){
+                db_row[i-1] = db_sel.getString(i);
+            }
+            current_note.fromArray(db_row);
+            db_dump.add(current_note);
+        }
+        return db_dump;
     }
 }
