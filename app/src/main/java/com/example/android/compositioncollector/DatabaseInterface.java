@@ -1,5 +1,6 @@
 package com.example.android.compositioncollector;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -15,7 +16,7 @@ public class DatabaseInterface  extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String db_create = "CREATE TABLE " + db_name + " (ID INT PRIMARY KEY AUTOINCREMENT";
+        String db_create = "CREATE TABLE " + db_name + " (ID INTEGER PRIMARY KEY AUTOINCREMENT";
         for (String col : db_cols) {
             db_create += ", " + col + " TEXT";
         }
@@ -33,9 +34,19 @@ public class DatabaseInterface  extends SQLiteOpenHelper{
         }
     }
 
-    public void addNote(NoteContent user_data){
+    public boolean addNote(NoteContent user_data){
         SQLiteDatabase db = this.getWritableDatabase();
         String[] user_data_array = user_data.makeArray();
-
+        ContentValues to_insert = new ContentValues();
+        // TODO: Add error handling for mismatched cols
+        for(int i = 0; i < db_cols.length; i++){
+            to_insert.put(db_cols[i], user_data_array[i]);
+        }
+        if(db.insert(db_name, null, to_insert) == -1){
+            return false;
+        }
+        else{
+            return true;
+        }
     }
 }
