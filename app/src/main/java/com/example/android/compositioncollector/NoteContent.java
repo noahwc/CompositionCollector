@@ -9,6 +9,9 @@ public class NoteContent {
     private String gear;
     private String description;
 
+    NoteContent(){
+    }
+
     NoteContent(String title, String location, String time, String weather, String gear, String description){
         this.title = title;
         this.location = location;
@@ -30,6 +33,10 @@ public class NoteContent {
         this.setWeather(weather);
         this.setDescription(description);
         this.setGear(gear);
+    }
+
+    public void fromArray(String[] arr){
+        this.setAll(arr[0], arr[1], arr[2], arr[3], arr[4], arr[5]);
     }
 
     public String getTitle() {

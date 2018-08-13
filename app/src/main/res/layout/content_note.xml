@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".SingleNote"
-    tools:showIn="@layout/activity_single_note">
+    tools:context=".NoteActivity"
+    tools:showIn="@layout/activity_note">
 
     <ScrollView
         android:id="@+id/scrollView2"
@@ -31,56 +31,56 @@
                 android:background="?android:attr/listDivider" />
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/title_hint" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/location"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/location_hint" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/time"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/time_of_day_hint">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textCapWords" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/weather"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/weather"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/weather_hint" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/gear"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/gear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/gear_hint" />
@@ -88,11 +88,11 @@
 
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/description_hint" />

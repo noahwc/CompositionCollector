@@ -3,39 +3,49 @@ package com.example.android.compositioncollector;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
 
-public class SingleNote extends AppCompatActivity {
-
-    NoteContent note_data;
+public class NoteActivity extends AppCompatActivity {
+    private NoteContent note_data;
+    private DatabaseInterface db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_single_note);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setContentView(R.layout.activity_note);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
+        db = new DatabaseInterface(this);
+        note_data = new NoteContent();
 
-
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                note_data.setTitle(((EditText)findViewById(R.id.title)).getText().toString());
-                note_data.setLocation(((EditText)findViewById(R.id.location)).getText().toString());
-                note_data.setTime(((EditText)findViewById(R.id.time)).getText().toString());
-                note_data.setWeather(((EditText)findViewById(R.id.weather)).getText().toString());
-                note_data.setGear(((EditText)findViewById(R.id.gear)).getText().toString());
-                note_data.setDescription(((EditText)findViewById(R.id.description)).getText().toString());
-                Snackbar.make(view, "Saved", Snackbar.LENGTH_SHORT).show();
+                saveNote(view);
             }
         });
+    }
+
+    public void saveNote(View view){
+        note_data.setTitle(((TextInputLayout)findViewById(R.id.title)).getEditText().getText().toString());
+        note_data.setLocation(((TextInputLayout)findViewById(R.id.location)).getEditText().getText().toString());
+        note_data.setTime(((TextInputLayout)findViewById(R.id.time)).getEditText().getText().toString());
+        note_data.setWeather(((TextInputLayout)findViewById(R.id.weather)).getEditText().getText().toString());
+        note_data.setGear(((TextInputLayout)findViewById(R.id.gear)).getEditText().getText().toString());
+        note_data.setDescription(((TextInputLayout)findViewById(R.id.description)).getEditText().getText().toString());
+        if(db.addNote(note_data)) {
+            Snackbar.make(view, "Saved", Snackbar.LENGTH_SHORT).show();
+        }
+        else{
+            Snackbar.make(view, "Save Failed", Snackbar.LENGTH_SHORT).show();
+        }
     }
 
     @Override
