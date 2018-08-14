@@ -12,17 +12,31 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private ArrayList<NoteContent> entries;
     private int num_of_entries;
+    final private onEntryClickListener click_listener;
 
-    public RecyclerViewAdapter(ArrayList<NoteContent> db_contents){
-        this.entries = db_contents;
-        num_of_entries = db_contents.size();
+    public interface onEntryClickListener {
+        void onEntryClick(int clickedEntryIndex);
     }
 
-    public static class RViewHolder extends RecyclerView.ViewHolder {
+    public RecyclerViewAdapter(ArrayList<NoteContent> db_contents, onEntryClickListener activity_click_listener){
+        entries = db_contents;
+        num_of_entries = db_contents.size();
+        click_listener = activity_click_listener;
+    }
+
+
+    public class RViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView list_entry;
+
         public RViewHolder(View title_view) {
             super(title_view);
             list_entry = title_view.findViewById(R.id.list_entry_slot);
+            title_view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View entry_view){
+            click_listener.onEntryClick(getAdapterPosition());
         }
     }
 

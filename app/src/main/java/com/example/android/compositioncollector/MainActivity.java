@@ -1,6 +1,6 @@
 package com.example.android.compositioncollector;
 
-import android.database.Cursor;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -10,9 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import java.util.ArrayList;
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RecyclerViewAdapter.onEntryClickListener{
 
     private RecyclerViewAdapter r_adapter;
     private RecyclerView r_note_entries;
@@ -29,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
         r_note_entries = findViewById(R.id.recycler_list);
         LinearLayoutManager r_layout_manager = new LinearLayoutManager(this);
-        r_adapter = new RecyclerViewAdapter(db.getDBContents());
+        r_adapter = new RecyclerViewAdapter(db.getDBContents(), this);
 
         r_note_entries.setLayoutManager(r_layout_manager);
         r_note_entries.setHasFixedSize(true);
@@ -43,6 +41,13 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+    }
+
+    @Override
+    public void onEntryClick(int clickedEntryIndex){
+        Intent single_note = new Intent(this, NoteActivity.class);
+        single_note.putExtra("DB_ROW", clickedEntryIndex);
+        startActivity(single_note);
     }
 
 }
