@@ -1,5 +1,6 @@
 package com.example.android.compositioncollector;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 public class NoteActivity extends AppCompatActivity {
     private NoteContent note_data;
     private DatabaseInterface db;
+    private int db_row;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +22,9 @@ public class NoteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_note);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Intent creator_intent = getIntent();
+        db_row = creator_intent.getIntExtra("DB_ROW", -1);
 
         db = new DatabaseInterface(this);
         note_data = new NoteContent();
@@ -40,6 +45,7 @@ public class NoteActivity extends AppCompatActivity {
         note_data.setWeather(((TextInputLayout)findViewById(R.id.weather)).getEditText().getText().toString());
         note_data.setGear(((TextInputLayout)findViewById(R.id.gear)).getEditText().getText().toString());
         note_data.setDescription(((TextInputLayout)findViewById(R.id.description)).getEditText().getText().toString());
+        
         if(db.addNote(note_data)) {
             Snackbar.make(view, "Saved", Snackbar.LENGTH_SHORT).show();
         }
