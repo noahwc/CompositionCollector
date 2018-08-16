@@ -14,7 +14,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
 
     private RecyclerViewAdapter r_adapter;
     private RecyclerView r_note_entries;
+    DatabaseInterface db;
 
+    boolean first_launch = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +25,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DatabaseInterface db = new DatabaseInterface(this);
+        db = new DatabaseInterface(this);
+
+        first_launch = false;
 
         r_note_entries = findViewById(R.id.recycler_list);
         LinearLayoutManager r_layout_manager = new LinearLayoutManager(this);
@@ -50,4 +54,12 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
         startActivity(single_note);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(!first_launch) {
+            r_adapter.updateEntries(db.getDBContents());
+            r_adapter.notifyDataSetChanged();
+        }
+    }
 }

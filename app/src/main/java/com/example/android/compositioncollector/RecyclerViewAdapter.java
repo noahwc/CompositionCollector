@@ -19,9 +19,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public RecyclerViewAdapter(ArrayList<NoteContent> db_contents, onEntryClickListener activity_click_listener){
-        entries = db_contents;
-        num_of_entries = db_contents.size();
-        click_listener = activity_click_listener;
+        this.entries = db_contents;
+        this.num_of_entries = db_contents.size();
+        this.click_listener = activity_click_listener;
     }
 
 
@@ -30,7 +30,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         public RViewHolder(View title_view) {
             super(title_view);
-            list_entry = title_view.findViewById(R.id.list_entry_slot);
+            this.list_entry = title_view.findViewById(R.id.list_entry_slot);
             title_view.setOnClickListener(this);
         }
 
@@ -56,5 +56,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(RViewHolder entry_holder, int list_position){
         String curent_entry_title = entries.get(list_position).getTitle();
         entry_holder.list_entry.setText(curent_entry_title);
+    }
+
+    public void updateEntries(ArrayList<NoteContent> updated_db_contents){
+        this.entries = updated_db_contents;
     }
 }
