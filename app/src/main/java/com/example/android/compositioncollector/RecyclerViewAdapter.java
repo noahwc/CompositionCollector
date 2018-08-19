@@ -60,5 +60,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public void updateEntries(ArrayList<NoteContent> updated_db_contents){
         this.entries = updated_db_contents;
+        this.num_of_entries = entries.size();
     }
 }

@@ -27,8 +27,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
 
         db = new DatabaseInterface(this);
 
-        first_launch = false;
-
         r_note_entries = findViewById(R.id.recycler_list);
         LinearLayoutManager r_layout_manager = new LinearLayoutManager(this);
         r_adapter = new RecyclerViewAdapter(db.getDBContents(), this);
@@ -60,6 +58,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
         if(!first_launch) {
             r_adapter.updateEntries(db.getDBContents());
             r_adapter.notifyDataSetChanged();
+        }
+        else {
+            first_launch = false;
         }
     }
 }
