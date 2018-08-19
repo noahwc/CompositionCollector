@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class DatabaseInterface  extends SQLiteOpenHelper{
 
     private static String db_name = "USER_NOTES";
-    private String[] db_cols = {"title", "location", "time", "weather", "gear", "description"};
+    public String[] db_cols = {"title", "location", "time", "weather", "gear", "description"};
 
     public DatabaseInterface(Context context) {
         super(context, db_name, null, 1);
@@ -37,14 +37,19 @@ public class DatabaseInterface  extends SQLiteOpenHelper{
         }
     }
 
-    public boolean addNote(NoteContent user_data){
-        SQLiteDatabase db = this.getWritableDatabase();
+    private ContentValues prepareNote(NoteContent user_data){
         String[] user_data_array = user_data.makeArray();
-        ContentValues to_insert = new ContentValues();
+        ContentValues prepared_note = new ContentValues();
         // TODO: Add error handling for mismatched cols
         for(int i = 0; i < db_cols.length; i++){
-            to_insert.put(db_cols[i], user_data_array[i]);
+            prepared_note.put(db_cols[i], user_data_array[i]);
         }
+        return prepared_note;
+    }
+
+    public boolean addNote(NoteContent user_data){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues to_insert = prepareNote(user_data);
         if(db.insert(db_name, null, to_insert) == -1){
             return false;
         }
@@ -53,20 +58,45 @@ public class DatabaseInterface  extends SQLiteOpenHelper{
         }
     }
 
+    public boolean updateNote(NoteContent user_data, int row){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues edited = prepareNote(user_data);
+        String[] row_id = {getRowId(row)};
+        if(db.update(db_name, edited, "id=?", row_id) == 1){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    private String getRowId(int row){
+        Cursor db_sel = cursorAtRow(row);
+        return db_sel.getString(0);
+    }
+
     private Cursor cursorGetAll(){
         SQLiteDatabase db = this.getWritableDatabase();
         return db.rawQuery("select * from " + db_name, null);
     }
 
+    public Cursor cursorAtRow(int row){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor db_sel = this.cursorGetAll();
+        db_sel.moveToPosition(row);
+        return db_sel;
+    }
+
     public ArrayList<NoteContent> getDBContents(){
         ArrayList<NoteContent> db_dump = new ArrayList<>();
         Cursor db_sel = this.cursorGetAll();
-        NoteContent current_note = new NoteContent();
+
         String[] db_row = new String[db_cols.length];
         while(db_sel.moveToNext()){
             for(int i = 1; i <= db_cols.length; i++){
                 db_row[i-1] = db_sel.getString(i);
             }
+            NoteContent current_note = new NoteContent();
             current_note.fromArray(db_row);
             db_dump.add(current_note);
         }
