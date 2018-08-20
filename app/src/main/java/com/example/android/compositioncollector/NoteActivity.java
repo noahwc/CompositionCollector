@@ -24,6 +24,7 @@ public class NoteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_note);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent creator_intent = getIntent();
         db_row = creator_intent.getIntExtra("DB_ROW", -1);
@@ -91,6 +92,12 @@ public class NoteActivity extends AppCompatActivity {
         }
     }
 
+    /*@Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
+    }*/
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -106,7 +113,7 @@ public class NoteActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (item.getItemId() == R.id.action_delete) {
             return true;
         }
 

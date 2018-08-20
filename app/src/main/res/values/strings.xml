@@ -8,4 +8,5 @@
     <string name="time_of_day_hint">Time of day</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="gear_hint">Gear</string>
+    <string name="button_delete">Delete</string>
 </resources>

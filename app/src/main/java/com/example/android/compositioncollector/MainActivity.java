@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity implements RecyclerViewAdapter.onEntryClickListener{
@@ -34,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
         r_note_entries.setLayoutManager(r_layout_manager);
         r_note_entries.setHasFixedSize(true);
         r_note_entries.setAdapter(r_adapter);
+        r_layout_manager.setReverseLayout(true);
+        r_layout_manager.setStackFromEnd(true);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -63,4 +66,5 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
             first_launch = false;
         }
     }
+
 }

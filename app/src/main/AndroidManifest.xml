@@ -12,10 +12,14 @@
         <activity
             android:name=".NoteActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName="com.example.android.compositioncollector.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.android.compositioncollector.MainActivity" />
         </activity>
         <activity
             android:name=".MainActivity"
