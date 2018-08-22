@@ -70,6 +70,17 @@ public class DatabaseInterface  extends SQLiteOpenHelper{
         }
     }
 
+    public boolean deleteNote(int row){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String[] row_id = {getRowId(row)};
+        if(db.delete(db_name,  "id=?", row_id) == 1){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     private String getRowId(int row){
         Cursor db_sel = cursorAtRow(row);
         return db_sel.getString(0);

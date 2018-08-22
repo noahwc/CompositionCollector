@@ -92,12 +92,6 @@ public class NoteActivity extends AppCompatActivity {
         }
     }
 
-    /*@Override
-    public boolean onSupportNavigateUp(){
-        finish();
-        return true;
-    }*/
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -114,7 +108,11 @@ public class NoteActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (item.getItemId() == R.id.action_delete) {
-            return true;
+            if(db.deleteNote(db_row))
+                finish();
+            else {
+                Snackbar.make(findViewById(android.R.id.content), "Deletion Failed", Snackbar.LENGTH_SHORT).show();
+            }
         }
 
         return super.onOptionsItemSelected(item);
