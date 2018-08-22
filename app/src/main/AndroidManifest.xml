@@ -12,7 +12,7 @@
         <activity
             android:name=".NoteActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/Theme.AppTheme.NoActionBar.DarkGreen"
             android:parentActivityName="com.example.android.compositioncollector.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,7 +25,7 @@
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/Theme.AppTheme.NoActionBar.DarkGreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
