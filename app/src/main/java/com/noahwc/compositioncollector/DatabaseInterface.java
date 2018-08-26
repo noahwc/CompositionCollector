@@ -1,4 +1,4 @@
-package com.example.android.compositioncollector;
+package com.noahwc.compositioncollector;
 
 import android.content.ContentValues;
 import android.content.Context;

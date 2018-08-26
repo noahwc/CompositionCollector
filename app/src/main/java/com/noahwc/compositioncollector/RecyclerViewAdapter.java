@@ -1,4 +1,4 @@
-package com.example.android.compositioncollector;
+package com.noahwc.compositioncollector;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

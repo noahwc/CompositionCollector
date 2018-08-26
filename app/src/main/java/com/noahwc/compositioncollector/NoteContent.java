@@ -1,4 +1,4 @@
-package com.example.android.compositioncollector;
+package com.noahwc.compositioncollector;
 
 public class NoteContent {
 

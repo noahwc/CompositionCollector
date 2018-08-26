@@ -1,4 +1,4 @@
-package com.example.android.compositioncollector;
+package com.noahwc.compositioncollector;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.android.compositioncollector", appContext.getPackageName());
+        assertEquals("com.noahwc.compositioncollector", appContext.getPackageName());
     }
 }
