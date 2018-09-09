@@ -12,29 +12,43 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+/**
+ * This class handles the displaying, editing, and saving of one note.
+ */
+
 public class NoteActivity extends AppCompatActivity {
     private NoteContent note_data;
     private DatabaseInterface db;
     private int db_row;
 
+    /**
+     * Handles the initialization of the floating action button, the action bar, and various member variables.
+     * @param savedInstanceState
+     */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
+
+        // Initializes the action bar to display a back button and for the delete button to be added.
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Intent creator_intent = getIntent();
-        db_row = creator_intent.getIntExtra("DB_ROW", -1);
-
         db = new DatabaseInterface(this);
         note_data = new NoteContent();
 
+        // Get the location of the opened note in the database. A value of -1 indicates this is a new note not present in the database.
+        Intent creator_intent = getIntent();
+        db_row = creator_intent.getIntExtra("DB_ROW", -1);
+
+        // If the note does already exist in the database, display it.
         if(db_row != -1){
             this.populateFields();
         }
 
+        //Initialize the save floating action button.
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,6 +57,10 @@ public class NoteActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Fill the form fields with the appropriate preexisting data from the database.
+     */
 
     public void populateFields(){
         Cursor db_contents = db.cursorAtRow(db_row);
@@ -54,6 +72,11 @@ public class NoteActivity extends AppCompatActivity {
         ((TextInputLayout)findViewById(R.id.description)).getEditText().setText(db_contents.getString(6));
     }
 
+    /**
+     * Save the note as a newly created note.
+     * @param view View to hold the save confirmation.
+     */
+
     private void saveNewNote(View view){
         if(db.addNote(note_data)) {
             Snackbar.make(view, "Saved", Snackbar.LENGTH_SHORT).show();
@@ -62,6 +85,11 @@ public class NoteActivity extends AppCompatActivity {
             Snackbar.make(view, "Save Failed", Snackbar.LENGTH_SHORT).show();
         }
     }
+
+    /**
+     * Save the note by updating an existing entry.
+     * @param view
+     */
 
     private void editNote(View view){
         if(db.updateNote(note_data, db_row)) {
@@ -72,6 +100,10 @@ public class NoteActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Get the note data from the text fields and store it in a data structure.
+     */
+
     private void getNoteData(){
         note_data.setTitle(((TextInputLayout)findViewById(R.id.title)).getEditText().getText().toString());
         note_data.setLocation(((TextInputLayout)findViewById(R.id.location)).getEditText().getText().toString());
@@ -80,6 +112,11 @@ public class NoteActivity extends AppCompatActivity {
         note_data.setGear(((TextInputLayout)findViewById(R.id.gear)).getEditText().getText().toString());
         note_data.setDescription(((TextInputLayout)findViewById(R.id.description)).getEditText().getText().toString());
     }
+
+    /**
+     * Save a note.
+     * @param view Used by called methods for snackbar creation.
+     */
 
     private void saveNote(View view){
         this.getNoteData();
@@ -91,12 +128,24 @@ public class NoteActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Adds items (delete only at this time) to the top toolbar.
+     * @param menu The generated menu.
+     * @return
+     */
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_single_note, menu);
         return true;
     }
+
+    /**
+     * Handles clicks of menu items (only delete at this time).
+     * @param item The clicked menu item.
+     * @return
+     */
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -107,7 +156,10 @@ public class NoteActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (item.getItemId() == R.id.action_delete) {
-            if(db.deleteNote(db_row))
+            if(db_row == -1){
+                finish();
+            }
+            else if(db.deleteNote(db_row))
                 finish();
             else {
                 Snackbar.make(findViewById(android.R.id.content), "Deletion Failed", Snackbar.LENGTH_SHORT).show();

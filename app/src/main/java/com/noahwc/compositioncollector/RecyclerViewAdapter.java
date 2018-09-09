@@ -14,10 +14,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private int num_of_entries;
     final private onEntryClickListener click_listener;
 
+    /**
+     * Listen for a click on a note from the list.
+     */
+
     public interface onEntryClickListener {
         void onEntryClick(int clickedEntryIndex);
     }
 
+    /**
+     * The constructor initializes member variables.
+     * @param db_contents  The contents of the database used to populate the list.
+     * @param activity_click_listener
+     */
     public RecyclerViewAdapter(ArrayList<NoteContent> db_contents, onEntryClickListener activity_click_listener){
         this.entries = db_contents;
         this.num_of_entries = db_contents.size();
@@ -25,8 +34,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
 
+    // A standard view holder implementation with a click listener
+
     public class RViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView list_entry;
+
+        /**
+         * A standard view holder constructor.
+         * @param title_view A simple text view to be used in the recycler view.
+         */
 
         public RViewHolder(View title_view) {
             super(title_view);
@@ -34,15 +50,32 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             title_view.setOnClickListener(this);
         }
 
+        /**
+         * Handles the click listener.
+         * @param entry_view
+         */
+
         @Override
         public void onClick(View entry_view){
             click_listener.onEntryClick(getAdapterPosition());
         }
     }
 
+    /**
+     * Get the number of items in the recycler view.
+     * @return The number of entries in the recycler view.
+     */
+
     public int getItemCount(){
         return num_of_entries;
     }
+
+    /**
+     * Standard onCreateViewHolder that inflates the layouts of the list items.
+     * @param parent
+     * @param viewType
+     * @return
+     */
 
     @Override
     public RViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -52,11 +85,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return entry_holder;
     }
 
+    /**
+     * Populate the layout with data.
+     * @param entry_holder The layout to populate.
+     * @param list_position The entry of the database to use to populate view.
+     */
     @Override
     public void onBindViewHolder(RViewHolder entry_holder, int list_position){
         String curent_entry_title = entries.get(list_position).getTitle();
         entry_holder.list_entry.setText(curent_entry_title);
     }
+
+    /**
+     * Refresh the view upon database update.
+     * @param updated_db_contents The new database contents.
+     */
 
     public void updateEntries(ArrayList<NoteContent> updated_db_contents){
         this.entries = updated_db_contents;
